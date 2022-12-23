@@ -1,0 +1,14 @@
+- name: playbook for debuge
+  hosts: all
+  vars: 
+   URL: "www.ganesh.com"
+   task:
+     -  name: print hellow world
+        debug:
+          msg: "PLEASE VISIT {{URL}}"
+     -  name: print hellow world
+        debug:
+          msg: "PLEASE VISIT {{URL}}"
+     -  name: print hellow world
+        debug:
+          msg: "PLEASE VISIT {{URL}}"
