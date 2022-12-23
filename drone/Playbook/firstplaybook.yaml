@@ -1,4 +1,4 @@
-name: my first playbook
+name: myfirstplaybook
 hosts: all
 tasks:
      name: ping the hosts
