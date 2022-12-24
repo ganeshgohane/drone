@@ -2,4 +2,4 @@
   hosts: all
   become: true
   roles:
-    - Playbook\Roles\web-server
+    - drone\drone\Playbook\Roles\web-server
