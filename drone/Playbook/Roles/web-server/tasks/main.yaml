@@ -11,5 +11,5 @@
 
 - name: Deploy Website
   copy:
-    src: ./Playbook\Roles/web-server/files/index.html
+    src: ./index.html
     dest: /var/www/html/index.html
