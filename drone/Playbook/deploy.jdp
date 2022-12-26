@@ -1,0 +1,26 @@
+    agent any
+    stages {
+        stage('Pull'){
+            steps {
+                git 'https://github.com/shubhamkalsait/studentapp-ui.git'
+            }
+        }
+        stage('Build'){
+            steps {
+                sh 'mvn clean package '
+            }
+        }
+        stage('Test'){
+            steps {
+                withSonarQubeEnv('sonar') {
+                     sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                deploy adapters: [tomcat8(credentialsId: 'tomide', path: '', url: 'http://3.19.167.66:8080')], contextPath: '/', war: '**/*.war'
+            }
+        }
+    }
+}
