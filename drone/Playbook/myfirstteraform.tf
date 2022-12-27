@@ -7,3 +7,4 @@
      security_groups = ["sg-04063eead5c30d326"]
      key_name = "GanesAAA"
  }
+ 
