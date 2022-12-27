@@ -1,4 +1,4 @@
-provide "aws" {
+   provide "aws" {
     region = "us-east-2"
 }
    resource  "aws_instance" "web_server" {
@@ -7,4 +7,3 @@ provide "aws" {
      security_group = ["default"]
      key_name = "GanesAAA"
  }
- 
