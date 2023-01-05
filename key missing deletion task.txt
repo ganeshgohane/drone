@@ -1,0 +1,21 @@
+  * { when accidently your instance private key will be missed or delete } *
+
+--> create two instance provide name original_instnace & temporary_instance
+---> them remove original_instnace private key
+---> then stop original instance
+----> detach volume from original instance 
+----> then attach to the volume of original_instnace to the temporary instace & save 
+----> then give the ssh of temporory instance 
+---> hits the following cmd 
+--->lsblk
+--> mkdir /mnt/tempvol
+--> mount -o nouuid  /dev/xvdf1 /mnt/tempvol
+--> cat /home/ec2-user/.ssh/authorized_keys >> /mnt/tempvol/home/ec2-user/.ssh/authorized_keys
+--> then umount /dev/xvdf1 
+---> init 0
+---> then stop instance 
+---> then detach volume and attach  to the orginal_instance
+--> then start both instance
+----> then task completly perform
+
+(note:--> (volume will attch at the running state of instance)

@@ -1,0 +1,29 @@
+
+
+--> yum update -y
+--> amazon-linux-extras install nginx1 -y
+--> systemctl start nginx
+--> systemctl enable nginx 
+--> hit public Ip on browser
+--> cd /usr/share/nginx/html/
+--> mkdir ganesh
+--> cd ganesh
+--> ls
+--> vim index.html
+  <h1> Ganesh Sudhakar Gohane </h1> 
+
+  :wq!
+
+--> hit public ip on browser with name of directory (ex.--> 197.168.0.0/ganesh)
+--> then rm index.html file 
+--> then download css template from browser and download it on following cmd 
+--> cd
+--> curl -O https://www.free-css.com/assets/files/free-css-templates/download/page276/ocean-vibes.zip
+==> ls
+==> unzip ocean-vibes.zip
+==> ls
+==> cp -r /root/templatemo_554_ocean_vibes/*  /usr/share/nginx/html/ganesh/
+==> ls
+==> cd /usr/share/nginx/html/ganesh
+==> check index page properly
+==> then hit public ip on browser with directory (ex.--> 197.168.0.0/ganesh)

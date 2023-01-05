@@ -1,0 +1,9 @@
+### http website hosted by dns  ###
+
+--> launch an ec2-instanace and provide port 80  then purchase domain from freeenom.com 
+--> then goto route53 service then create hosted zone then provide domain name where purchase from registar (freenom)
+--> then hosted zone will automatic create NS and SOA and then goto freenom account click on client frenoom provide mail id passwd 
+--> then click on my domain then click on manage domian and then click on management tool select nameserver
+--> then privide enrty of any two nameserver of hosted zone  then chage it 
+--> then create record of cname then record name = www.  & record type = CNAME & values = domain name  then simply create 
+--> then type domain name on browser it will be work and for CNAME type www.domain name on browser it will be work. 

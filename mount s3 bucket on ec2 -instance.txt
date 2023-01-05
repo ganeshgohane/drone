@@ -1,0 +1,64 @@
+
+   *  { Mount s3 Buckets on ec2 instance } *
+
+---> create bucket and instance [redhat] 
+--> yum update -y
+---> yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel -y  {package-name}
+
+ --> git clone https://github.com/s3fs-fuse/s3fs-fuse.git    {depedency sofware}
+    
+ ---> hit up following  the cmd on terminal
+    
+      cd s3fs-fuse
+     ./autogen.sh
+     ./configure --prefix=/usr --with-openssl
+      make
+      make install
+      which s3fs                          :-- Path {/usr/bin/s3fs}
+      cd
+     vim /etc/passwd-s3fs
+     secrete access_key:Key_id     {AKIAYBLJTBFHYEJQGLNF:iiyaypR6i1Q731tMErOo+RyEJu4e5Xs9q91gq8tS}---{root-user}
+     :wq!
+     
+     chmod 640 /etc/passwd-s3fs
+     mkdir /demo  
+
+   |-----------------------------------------------------------------------------------------------------------------------------------------|
+   |    s3fs         s-25-team     -o use_cache=/tmp -o allow_other -o uid=1000 -o mp_umask=002 -o multireq_max=5  /demo                     |
+   |filesystem      {bucket_name}                 device name                                                     /{created diretory}        |
+   |-----------------------------------------------------------------------------------------------------------------------------------------|
+
+
+   s3fs b-25-mount -o use_cache=/tmp -o allow_other -o uid=1000 -o mp_umask=002 -o multireq_max=5 /demo
+
+
+     df -HT
+     cd /demo
+     ls
+      cat >text.txt
+        Ganesh sudhakar gohane
+     ctl +d
+     
+      goto s3 console check the bucket object obeject will copy to bucket or replicate
+  
+-------------------------------------------------------------------------------------------------------------
+ 
+    for permanent mount
+  
+     vim /etc/fstab
+     s3fs#bucketname  /mnt   fuse  defaults  0  0
+   
+      :wq!
+
+      df -hT
+       cd /demo
+       ls
+      cat >text.txt
+        Ganesh sudhakar gohane
+     ctl +d
+      
+    goto s3 console check the bucket object obeject will copy to bucket or replicate
+     
+   for unmount 
+    umount -a /demo
+

@@ -1,0 +1,11 @@
+  {expore  linux services on aws cli with create server and client}
+
+--> launch two instance at a time with single security group
+--> then provide name two instance (server & client)
+---> then provide inbound rule with allow tcp --> httd, nfs, samba, ssh, ftp, all tcp,Mysql,
+     custom ICMP ipv4(ping operation)-- echo request -- anywhere -->save
+--> copy public ip of both instance and goto moboxtermo and create terminal (clinet, server)
+--> then ping with each other by using private ip of both instance 
+---> and perform all services of linux with priate ip 
+    
+  

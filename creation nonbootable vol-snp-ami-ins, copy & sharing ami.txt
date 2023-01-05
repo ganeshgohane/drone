@@ -1,0 +1,16 @@
+
+Task-01
+ # {creation of non-bootable-volume-snapshot-ami-instance} #
+
+--> create any instance 
+-->goto volume create new  volume with selection of hdd storage type (it is non-bootable)
+-->the create snapshot then ami and the instance {instance will automatically goto in stop mode}
+
+
+Task-02
+   # {copy Ami to other region of same ac & share ami to the another ac} #
+--> create instance the create ami 
+-->copy --> select ami goto action and click on copy ami and the provide region
+--> ami will atoumatically copy
+-->sharing--> select ami goto the action click on modify permission made it public or private enter ac id and save
+-->  ami will atoumatically share

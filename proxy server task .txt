@@ -1,0 +1,12 @@
+### Proxy server Task ###
+
+-->create vpc and 1 private and 1 public subnet with internet gateway& P.IP create new route tbale assoicate private tbale with ne RT
+-->create public instance and private instance 
+---> give ssh by ussing moboxtermo
+--> ping google.com on public instance install httpd webserver or nginx server and configure 
+-->then download template and provide port http
+-->  then hit the ip on browser
+--> then create AMI of public instance and lauch the instnace form this Ami with select private subnet 
+--> give ssh with of private instace with public instance 
+--> the  elinks private instnace IP
+--> then website will be hostedd esially

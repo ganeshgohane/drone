@@ -1,0 +1,82 @@
+For AWS,
+There is one client Tesla.
+ He wants to host his website on EC2 Instance.
+ He has following requirement,
+-
+  Website should host on port 8443
+-
+  Website must be accessible through HTTPS only 
+- 
+ Website should not be accessible through HTTP
+-  
+Website should be stored in S3 bucket
+
+  Logs related to website must be store in another S3 bucket
+-  
+Schedule log-rotation with Retention of 10 Days  --> http://www.dowdandassociates.com/blog/content/howto-rotate-logs-to-s3/
+
+
+SOLUTION :-->
+            
+             ---> create bucket and instance [redhat] 
+--> yum update -y
+---> yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel -y  {package-name}
+
+ --> git clone https://github.com/s3fs-fuse/s3fs-fuse.git    {depedency sofware}
+    
+ ---> hit up following  the cmd on terminal
+    
+      cd s3fs-fuse
+     ./autogen.sh
+     ./configure --prefix=/usr --with-openssl
+      make
+      make install
+      which s3fs                          :-- Path {/usr/bin/s3fs}
+      cd
+     vim /etc/passwd-s3fs
+     secrete access_key:Key_id     {AKIAYBLJTBFHYEJQGLNF:iiyaypR6i1Q731tMErOo+RyEJu4e5Xs9q91gq8tS}---{root-user}
+     :wq!
+     
+     chmod 640 /etc/passwd-s3fs
+     mkdir /demo  
+
+
+--> s3fs b-25-team  -o use_cache=/tmp -o allow_other -o uid=1000 -o mp_umask=002 -o multireq_max=5 /demo
+--> cp link website and download  by wget cmd and unzip it  
+--> cp -r /root/webite/*   /demo
+--> vim /etc/httpd/conf.d/demo.conf
+    <virtualHost *:80>
+    servername server.demo.com
+    documentroot "/demo"
+    </virtualHost>
+    <directory /demo>
+    require all granted
+    </directory>
+   :wq!
+
+---> systemctl start httpd 
+---> systemctl enable httpd
+--> systemctl start httpd
+--> setenforce 0
+
+--> yum install mod_ssl -y
+--> yum install openssl -y
+
+--> cd /etc/httpd/conf.d/
+--> vim mnt.conf
+<virtualHost *:443>
+servername www.ganesh.com
+documentroot /demo
+sslengine on
+sslcertificatefile /etc/httpd/conf.d/server.crt
+sslcertificatekeyfile /etc/httpd/conf.d/server.key
+</virtualHost>
+<directory /demo>
+require all granted
+</directory>
+
+--> openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+
+--> by using firewalld cmd add service port  80 & 443 & http, https then forward port https to 8443
+---> hit the following public ip on  brower like 172.31.0.23 & https//172.31.0.23 & htts://172.31.0.23:8443
+--> 

@@ -1,0 +1,24 @@
+      * exploration of kernal panic issue * (1/2) error
+
+ 
+--> create two instance with proving diferents keys with provide name kernal_instnace & rescue_instance
+---> then give ssh of  kernal_instance and delete  boot directory 
+---> then stop both instance
+---->detach volume from kernal_instance 
+----> the attach the volume of kernal_instance to the rescue_instace &  save (during attch /dev/sdf no change) 
+----> then give the ssh of rescue_instance 
+---> hits the following cmd
+--> cd /ls
+--> check boot directory
+---> create new directory mkdir /recovery
+---> then mount -o nouuid /dev/xvdf1 /recovery
+---> then cp -r /boot/*  /recovery
+---> then check cd /recovery
+---> umount /dev/xvdf1 
+---> then stop rescue_instance
+---> then dettach volume from rescue_instance and attach to the kernal_instance (during attach /dev/xvda)
+---> then  start kernal_instnace & check kernal_instance status is okey (2/2)
+---> then task is complete
+
+
+  (note:--> (volume will attch at the running state of instance)

@@ -1,0 +1,12 @@
+ {cross account bucket sharing}
+
+--> create bucket any region with full pulic access with versioning on.
+
+--->initially goto  the bucket -> goto the management --> goto replication rule --> click on action --> select replicate all  
+    --> provide ac id of other ac. and generate and close that.
+--->then create replication
+---> select option all object of buckect-> provide other ac id and bucket name->change storage class standard -I3-->create rule.
+--->  upload object with public access & change storage class standard -I3.
+----> same process for cross region bucket and same region bucket. 
+
+---> task will successful easily.

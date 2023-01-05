@@ -1,0 +1,13 @@
+#! /bin/bash
+yum install java-openjdk -y
+curl -O https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.jar
+curl -O https://s3-us-west-2.amazonaws.com/studentapi-cit/student.war
+curl -O https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.77/bin/apache-tomcat-8.5.77.tar.gz
+tar -zxf apache-tomcat-8.5.77.tar.gz 
+mv apache-tomcat-8.5.77 /opt
+mv mysql-connector.jar /opt/apache-tomcat-8.5.77/lib
+mv student.war /opt/apache-tomcat-8.5.77/webapps
+cd /opt/apache-tomcat-8.5.77/bin
+./catalina.sh start
+./catalina.sh stop
+./catalina.sh start

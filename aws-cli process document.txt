@@ -1,0 +1,35 @@
+   aws cli 
+ --> launch any instance like rhel, centos -7, suse,boss amzlinux and so on 
+---> the ssh with moboxterm
+---> then install packge {https://docs.aws.amazon.com/cli/v1/userguide/install-linux.html} by using website 
+ linux  {copy three cmd  form website}
+ --------------------------------
+--> package--> curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   
+--> unzip awscliv2.zip
+--> ./aws/install
+ ---------------------------------------                      
+--> ls /usr/local/bin/
+  vim /etc/profile                                                    |-------------------------------------------------------|
+                                                                  --> |syntax for all service aws cli                         |
+                                                                      | aws <service_name> <action_cmd>  <option> <arguments> |
+                                                                      |-------------------------------------------------------|
+
+  done
+  |
+  export PATH=$PATH:'/usr/local/bin/'
+  :wq!
+
+source /etc/profile
+
+ --> then attch role to the  role to your instance with administrative { permissions }
+ ---> search this website {https://awscli.amazonaws.com/v2/documentation/api/latest/index.html}
+---->  aws configure 
+      s.a.c-none
+      s.key_id =none
+      region= povide availabily.zone of rigion instance 
+      formate=table 
+---> the run cmd 
+    aws iam service 
+    aws s3 service
+    aws ec2 service 

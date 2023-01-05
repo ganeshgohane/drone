@@ -1,0 +1,34 @@
+  *  {fstab issue perform operation (1/2)}  *
+
+
+
+--> create two instance with prodving same keys with provide name fstab_instnace & rescue_instance
+---> then give ssh of  kernal_instance 
+---> vim /etc/fstab
+     ganesh:172.-1.1.1 /mnt xfs defaults  0  0
+     
+
+    :wq!
+--> init 0 (only fstab_instnace stop & running state rescue_instance) 
+-->detach volume from fstab_instance 
+----> then attach the volume of fstab_instance to the rescue_instace &  save (during attch /dev/sdf no change) 
+----> then give the ssh of rescue_instance 
+---> hits the following cmd
+--> lsblk -f
+---> create new directory mkdir /mnt/recovery
+---> then mount -o nouuid /dev/xvdf1 /mnt/recovery
+---> then check vim /etc/fstab
+---> then check cd mnt/recovery
+--> cd 
+---> vim /mnt/recovery/etc/fstab
+    
+   ( remove entry and :wq!)
+
+---> umount /dev/xvdf1
+---> init 0 
+---> then stop rescue_instance
+---> then dettach volume from rescue_instance and attach to the kernal_instance (during attach /dev/xvda)
+---> then  start kernal_instnace & check kernal_instance status is okey (2/2)
+---> then task is complete
+
+    (note:--> (volume will attch at the running state of instance)
