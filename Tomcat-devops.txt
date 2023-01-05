@@ -1,0 +1,73 @@
+### Host Java application on tomcat##
+
+ create database server on RDS service;
+1. create enc2 instnace amzonlinux  &  Add port 8080{custom tcp anywhere} on securitygroup RDS and add ssh port anywhere 
+   with anywhere mysql (3306) & during  creation of ec2  instnace it will attch 
+
+2.  Download tomcat 8 ( tar.gz (pgp, sha512) ) by serching (https://tomcat.apache.org/download-80.cgi) by using wget cmd 
+3.Extract in /opt (tar -xzvf apache-tomcat-8.5.76.tar.gz -C /opt/)
+ 
+4.Install java-openjdk (yum install java-11-openjdk OR yum install java-openjdk) OR yum install java* -y 
+
+5. Start tomcat using ./catalina.sh start
+then hit public ip with 8080 port on boweser like (172.31.25.16:8080)
+
+6.--> cd /opt/apache-tocat-8.5.76./ 
+ download by curl -O https://s3-us-west-2.amazonaws.com/studentapi-cit/student.war in /opt/apache-tocat-8.5.76/
+   Place application in root dir. webapps {cd webapps}  with --> mv student.war webapp}
+
+7. then yum install mysql -y OR  yum install mariadb* -y
+
+8. mysql -h db-maridb.cgwplrnajuus.ap-south-1.rds.amazonaws.com -uadmin -p ganesh123
+-->  exit
+
+9. cd /opt/apache-tomcat-8.5.76/conf/
+
+10. vim context.xml
+### Connect DB to Tomcat
+1. Configure Tomcat context.xml
+<Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+           maxTotal="500" maxIdle="30" maxWaitMillis="1000"
+           username="admin" password="redhat123" driverClassName="com.mysql.jdbc.Driver"
+   url="jdbc:mysql://db-instance.cntrdqrhemmy.ap-south-1.rds.amazonaws.com:3306/studentapp?useUnicode=yes&amp;characterEncoding=utf8"/>
+ 
+----------------------------------------------------------------
+##<WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>##
+     (below this line line cha khali paste karach)
+   
+   <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+        maxTotal="500" maxIdle="30" maxWaitMillis="1000"
+       username="admin" password="ganesh123" driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://db-maridb.cgwplrnajuus.ap-south-1.rds.amazonaws.com:3306/studentapp?useUnicode=yes&amp;characterEncoding=utf8"/>
+  
+(yacha varti top of this line)    
+## <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />###
+----------------------------------------------------------------------
+
+2. Download and place mysql-connector.jar in lib.
+(mysql-connector.jar free download) serching  by browser --> https://dev.mysql.com/downloads/connector/j/  this link select platform
+option and then 1st file slect and download and the extract this file --again extract
+drop file myconnector file from filemanger-download-my-demo.txt-myconnect ....
+
+3. Create DATABASE with name studentapp and tables,
+CREATE DATABASE studentapp;
+use studentapp;
+CREATE TABLE if not exists students(student_id INT NOT NULL AUTO_INCREMENT,
+	student_name VARCHAR(100) NOT NULL,
+    student_addr VARCHAR(100) NOT NULL,
+	student_age VARCHAR(3) NOT NULL,
+	student_qual VARCHAR(20) NOT NULL,
+	student_percent VARCHAR(10) NOT NULL,
+	student_year_passed VARCHAR(10) NOT NULL,
+	PRIMARY KEY (student_id)
+);
+show tables;
+describe students;
+4. Restart Tomcat
+5.--> cd /bin
+---> then run cmd ./catelina.sh stop & start
+6. then hit public ip with 8080/student port on boweser like (172.31.25.16:8080/student)
+------------------------------------------------------------------------------------------------------------------------------------

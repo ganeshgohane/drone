@@ -1,0 +1,32 @@
+  BYdefaults private subnet convert into public subnet 
+  --> create two private subnet 
+---> subnet1 and subnet2 
+--> subnet1<-> public subnet -->edit subnet setting-> create gatway attach to vpc --> edit route rule 0.0.0.0 with coonect internet 
+gateway
+
+ provide public internet to private cloud
+ --> give ssh of public subnet then private-->
+-> create NAT gatway --> create route table -->edit route rule 0.0.0.0 with connect NATGWAY-->Edit subnet associate--> select private
+--> give ssh of public subnet then private--> the yum install httpd -y
+
+peering connection between 2  vcp 
+--> provide port no (Custom Icmp -Ipv4 --> echorequest--> and anywhere) for public and private instance of both region . 
+-> create 2 vcp with 172.168.0.0/16 & 195.125.0.0/16 
+--> vpc1 create public, private & vpc2 only one private 
+--> then create peering connection vit id of vpc2 & send request of vpc1 & accept from vpc 2
+# route Table=> edit vpc-1 route table 195.168.0.0/20 (peering coneection)&edit vpc-2 route table 172.168.0.0/20(peering coneection)
+
+ # access aws service with the help of vpc ENDPOINT #
+--> give ssh of public ec2-instance then attch role s3 full access then cmd aws s3 ls 
+--> then create endpoint with select s3 gatway-select vpc--> check box of  the route table box is (check) and create endpot 
+---> then give ssh of priavte instance with the help of public instance and then attch role s3 fullaccess and then cmd  aws configue
+---> then region allow like ap-south-1 then cmd aws s3 ls 
+ 
+
+
+
+vpc range 172.168.0.0/16 , 195.125.0.0/16, 10.25.0.0/16
+subnet rages 195.168.0.0/20, 172.168.0.0/20, 10.25.1.0/24
+             195.168.1.0/20, 172.168.1.0/20, 10.25.2.0/24
+             195.168.2.0/20, 172.168.2.0/20, 10.25.3.0/24
+             195.168.3.0/20, 172.168.3.0/20, 10.25.4.0/24

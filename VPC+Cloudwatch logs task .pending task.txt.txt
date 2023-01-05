@@ -1,0 +1,16 @@
+   VPC + cloudwatchlog  Task-2.2
+
+Our new client TATA wants private infra setup for his new organization.
+His requirement is as follows,
+
+1. Number of subnet = 4
+
+2.Number of hots = 200
+
+3. 1 Public and 3 Private
+
+4. 1 Jump server
+
+
+Create a bash script so that we can implement it for other clients as well. 
+& Store logs of servers from AutoScaling group into S3 bucket

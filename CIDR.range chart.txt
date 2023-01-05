@@ -1,0 +1,9 @@
+   https://www.bogotobogo.com/DevOps/AWS/images/VPC/IPv4-CIDR-Chart.png
+
+
+  https://www.freecodecamp.org/news/subnet-cheat-sheet-24-subnet-mask-30-26-27-29-and-other-ip-address-cidr-network-references/
+
+
+   https://www.rapidtables.com/convert/number/decimal-to-binary.html (calcultory binary and decimal)
+
+     for digram --> diagram.net

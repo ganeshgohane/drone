@@ -1,0 +1,32 @@
+  for custom matrics operation
+  create instnace 
+  open aws cloudwatch srvice go to the matrics all matrics 
+  cpu utilazation in numbr 
+  then get ssh of instance
+  install package 
+  sudo yum install -y perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https perl-Digest-SHA.x86_64 (for aamzon linux2)
+  then install monitoring script 
+  curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+  then unzip it 
+then cd aws-scripts-mon
+  then ./mon-get-instance-stats.pl
+  then ./mon-put-instance-stats.pl --mem-utils 
+
+ (or any other option like --mem-used,--mem-used-incl-cache-buff,
+   --swap-util,--swap-used,--disk-path=PATH,--disk-space-util,--version and so on)
+
+  then goto the clowd watch service go to the matrics all matrics --click browse 
+  then select Custom namespaces
+  cpu utilazation in numbr 
+  then goto termisnal ssh 
+  crontab -e
+  * * * * * /root/aws-scripts-mon/mon-put-instance-data.pl --mem-util (or any other option like --mem-used,--mem-used-incl-cache-buff,
+   --swap-util,--swap-used,--disk-path=PATH,--disk-space-util,--version and so on)
+
+:wq!
+systemctl start crond 
+systemctl enable crond
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-scripts-intro.html
+
+  ( sudo amazon-linux-extras install epel -y and yum install stress & stress --help) increasing cpuutilazition manually)

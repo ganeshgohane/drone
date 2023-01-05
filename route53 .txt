@@ -1,0 +1,94 @@
+### http website hosted by dns  ###
+
+--> launch an ec2-instanace and provide port 80  then purchase domain from freeenom.com 
+--> then goto route53 service then create hosted zone then provide domain name where purchase from registar (freenom)
+--> then hosted zone will automatic create NS and SOA and then goto freenom account click on client frenoom provide mail id passwd 
+--> then click on my domain then click on manage domian and then click on management tool select nameserver
+--> then privide enrty of any two nameserver of hosted zone  then chage it 
+--> then create record of cname then record name = www.  & record type = CNAME & values = domain name  then simply create 
+--> then type domain name on browser it will be work and for CNAME type www.domain name on browser it will be work. 
+-------------------------------------------------------------------------------------------------------------------------------------
+     ##   ssl certifiaction and https website hosting in Route53  (secure https hosting) ##  
+
+--> launch an ec2-instnace and provide port (http:80) & (https:443)  then purchase domain from freeenom.com 
+--> then goto route53 service then create hosted zone then provide domain name where purchase from registar (freenom)
+--> then hosted zone will automatic create NS and SOA and then goto freenom account click on client frenoom provide mail id passwd 
+--> then click on my domain then click on manage domian and then click on management tool select nameserver
+--> then privide enrty of any two nameserver of hosted zone  then change it 
+--> then create record of cname then record name = www.  & record type = CNAME & values = domain name  then simply create 
+--> then type domain name on browser it will be work and for CNAME type www.domain name on browser it will be work. 
+--> then delete (A) record & CNAME Record from hosted zone then then 
+--> then goto Certificate manager service then simply create request then public
+-->then click domain and select DNS and then create
+--> then create CNAME record-->record name = CNAME name cpy from certificate(goto Certificate manager); 
+--> CNAME value = CNAME value cpy from certificate (goto Certificate manager).
+-->then simply create record.
+--> create target group with http:80 and add website on it path is blank include as pending as select ec2 ,
+--> then create loadbalancer with listener https & select certificate and then create loadbalncer,
+--> then hit DNS -name on browser with https:// but it will not secure 
+--> then create (A) records select allow alias, select endpoint, select region, select loadbalncer,
+--. then simply create record 
+--> then hit domain name on browser with https://domain name
+--> then it will be work website will secure . 
+
+    ### creation of Route policy ##
+
+step.1-->create ec2 -instance on ohio region with hosting website gyme template and create ec2 instnace on mumbai region with hosting 
+webiste Hangover template then create hosted zone and then gives entry in fenoom register of NS paste an 2 NS then save chage and
+with A record gives entry of ip Mumbai Region website in value portion with select ipv4 A record and simply create. 
+then hit the domain name in browser it will hosted mumbai region i website Hangover.
+create health check formumbai region website which is use to create of policy then remove A record and
+             
+
+1) failure policy (Route the traffic by using active passive server like 1 fail server and another server will run website easily)
+--> follow step.1  
+---> then create policy with name failure policy then -> then connect to failover rule & select heath check->then connect to endpt &
+ select value & IP of M.R. then automatic select of secondary -->then select value & IP of O.R.
+---> then create polic and record at a time then it give A record values
+--> then run cmd thorugh cli on mumbai region instance --> systemctl stop httpd and check there status also
+--> then hit dns on browser it will show ohio region website automatically 
+
+ 
+2) weghtedned policy (Route traffice by using no. of multiple servers or resources with provide avarage policy (80 & 20))
+--> follow step.1
+-->then create policy with name weightend policy then -> then connect to wegihtened rule=80  & select heath check->then connect to endpt &
+ select value & IP of M.R. then automatic select of secondary then connect to wegihtened rule=20 -->then select value & IP of O.R.
+---> then create policy and record at a time then it give A record values
+--> then run cmd thorugh cli on mumbai region instance --> amazon-linux-extras install epel -y and yum install stress & stress --help)
+ increasing cpuutilazition manually) stress --cpu 80 --io 4 --vm 2 --vm-bytes 128M --timeout 1m
+--> then hit dns on browser it will show ohio region website automatically 
+
+3) Geolocation routing policy (Route traffice in  user location like another country and india countr region)
+--> follow step.1
+-->then create policy with name Geolocation policy then -> then connect to geolocation rule  & select heath check->then connect to endpt &
+ select value & IP of M.R. then automatic select of secondary then connect to geolocation rule select default location 
+-->then select value & IP of O.R.
+---> then create policy and record at a time then it give A record values
+--> then using two browser 1st is opera meni and second your broswer 
+--> then hit dns on opera mini browser with change broswer loaction using vpn it will show ohio region website will access easily.
+--> then hit dns on opera mini browser it will show Mumabai region wesite will access easily.
+
+
+4) Geoproximity routing policy (Route traffic sepcific area,region only)
+--> follow step.1
+-->then create policy with name Geolocation policy then -> then connect to geolocation rule  & select heath check->then connect to endpt &
+ select value & IP of M.R. then automatic select of secondary then connect to geolocation rule select ohio region location 
+-->then select value & IP of O.R.
+---> then create policy and record at a time then it give A record values
+--> then using two browser 1st is opera meni and second your broswer 
+--> then hit dns on opera mini browser with change broswer loaction using vpn it will show ohio region website will access easily.
+--> then hit dns on opera mini browser it will show Mumabai region wesite will access easily.
+
+ 
+5) simple route policy --> (hosted wesite with single domain resources)
+--> launch an ec2-instnace and provide port 80  then purchase domain from freeenom.com 
+--> then goto route53 service then create hosted zone then provide domain name where purchase from registar (freenom)
+--> then hosted zone will automatic create NS and SOA and then goto freenom account click on client frenoom provide mail id passwd 
+--> then click on my domain then click on manage domian and then click on management tool select nameserver
+--> then privide enrty of any two nameserver of hosted zone  then chage it 
+--> then create record of cname then record name = www.  & record type = CNAME & values = domain name  then simply create 
+--> then type domain name on browser it will be work and for CNAME type www.domain name on browser it will be work. 
+
+6) multivalues routing policy (Route traffic by using select 8 records)
+
+7) latency route policy record (Route traffic by using edeged location with time cosumption of round-trip time policy)

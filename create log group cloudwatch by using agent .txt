@@ -1,0 +1,38 @@
+  # genrate log by using log agent in cloudwatch service # 
+
+
+ create instnace centos or redhat  
+  open aws cloudwatch srvice go to the logs 
+  give ssh of instnace on moboexterm 
+  then attch role cloudwtch fullaccess
+then install this package curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O (python scripts)
+then run cmd --> python awslogs-agent-setup.py --region (ap-south-1)
+
+Step 4 of 5: Configuring the CloudWatch Logs Agent ...
+Path of log file to upload [/var/log/messages]: /var/log/httpd/access_log
+Destination Log Group name [/var/log/httpd/access_log]: access_logs           cat messages
+
+
+Choose Log Stream name:
+  1. Use EC2 instance id.
+  2. Use hostname.
+  3. Custom.
+Enter choice [1]: 1
+
+Choose Log Event timestamp format:
+  1. %b %d %H:%M:%S    (Dec 31 23:59:59)
+  2. %d/%b/%Y:%H:%M:%S (10/Oct/2000:13:55:36)
+  3. %Y-%m-%d %H:%M:%S (2008-09-08 11:52:54)
+  4. Custom
+Enter choice [1]: 1
+
+Choose initial position of upload:
+  1. From start of file.
+  2. From end of file.
+Enter choice [1]: 2
+More log files to configure? [Y]:n
+--> vim /var/awslogs/etc/awslogs.conf  --with this file edit other like yum.log,massages  and so on
+--> systmctl restart awslogs
+--> then check the awsclouds logs groups
+
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/QuickStartEC2Instance.html
