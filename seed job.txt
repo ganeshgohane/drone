@@ -1,0 +1,41 @@
+  ### seed jobs  ## 
+Automation of job by using seed jobs (seed job use to create a job automatically)
+
+(manage jenkins --plugins)
+
+--> create jenkins servers --> then goto jenkins console and then click on manage jenkins--> then click on manage plugins-->available
+--> then search(seed jenkins)--> then install it-->then back to dashboard
+
+(job creation)
+--> click on new item --> provide name(seed job)--> select free-style--> click on build environment--> select proccess job Dsl
+--> then click on job DSL API-->click on jobs--> then click on steps-->
+
+job('example') {
+    steps {
+        shell('echo START')
+        
+    }                                                
+}
+
+--> copy this scipt --> then go to the visual code and create folder name seedjobs and create file seedjob1.groovy->then paste script
+on this file
+--> then click on ctrl +shift+p then restart autogit --> for restart autogit
+
+(job creation)
+--> click on new item --> provide name(seed job)--> select free-style--> click on build environment--> select proccess job Dsl
+--> then click on job DSL API-->click on jobs--> then click on steps-->
+--> then goto scm and select git--> paste the url of github directory --> select (credentials username passwd)--> then branch name mastr--> 
+-->then goto build --> select proccess job Dsl--> then in DSL script paste the path of visualstudio code file (simply right click 
+on this file and select copy corealtive path--> then paste on DSL scipt-->  and simply save and apply--> then click Build now
+--> then it gives permission issue-->
+--> then goto dashborad 
+
+(manage jenkis--plugins)
+--> then click on manage jenkins--> then click on manage plugins --> click on avilable--> and then serch(authorize project)
+and select it and install it--> again goto dashboard and click on manage jenkins
+
+(configuration of seedjobs)
+--> click on manage jenkins --> configure global security--> access control for build-->then select project biuld authorization
+-->select Run as who triggerd build--> and save and apply
+--> then goto dashboard --> and simply build now --> so one job will automatically created
+

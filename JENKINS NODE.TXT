@@ -1,0 +1,55 @@
+    ## JENKINS NODE CONCEPT ##
+
+--> create jenkins server provide port no. 8080
+--> then create ec2 instance called as an node-1 
+--> then give ssh of node-1 ec2 instnace 
+--> then install java-11-openjdk -y or java* -y
+--> then back to jenkins console 
+(configure sysstem)
+--> then click on manage jenkins -> click on configure system-> lable(master)-> usage(use as much possi)-> then save& apply
+
+(manage Plugin)
+--> then click on manage jenkins -> click on manage plugin-> click on available-> search filter(ssh)--> select SSH Build agent->
+-> then select install withouth restart.
+
+(Manage nodes)
+--> then click on manage jenkins -> click on manage nodes & cloud -> click on create new node -> provide name node1-> select type->
+--> then create
+--> write description like my node1 --> remote root directory(/home/ec2-user)--> lable(node)--> usage(only build job)--> lauch method
+(lauch agent via ssh)-> Host(priate ip of node-1 ec2 instnace)-> credentials (add)= jenkins=kind(ssh usename private key)
+scope(Globaljenkins)=id(nodes-credentials)=desciption(nodes-credentials)=username(ec2-user)
+--> private key ->enter-> add-> paste private key on blank space ->add create--> then select none(ec2-user)
+--> then host key strategy(non-verify verifaction strategy) --> Availbity(keep this agent online as much as possible) --> save
+
+(job creation)
+--> click on dashboard click on new item(for creation of job)
+--> name=job2--> select freestyle project--> ok --> 
+--> then select build executed shell
+    echo "hellow world "
+    echo "\n\t****THIS JOB IS EXECUTING IN NODE1****"
+--> BOTTOM OF DESCIRPTION  selct option (restrict where this project can be run )-->lable expression(node)--> apply & save 
+--> then click on build now it will show output 
+--> then check on ssh terminal of node1 instance with cmd cd /home/ec2-user/workspace/
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+
+      ## INTEGRATION OF JENKINS WITH GITLAB ## 
+
+(manage Plugin)
+--> then click on manage jenkins -> click on manage plugin-> click on available-> search filter(git) -> GIT ->
+-> then select install withouth restart.
+
+(cretion of job)
+click on dashboard click on new item(for creation of job)
+--> name=pulljob --> select freestyle project--> ok --> 
+->source code management(select git)-->paste repository https URL of github directory  (https://github.com/ganeshgohane/dev-b19.git)
+-->credentials(add)=jenkins=kind(usename password)
+scope(Globaljenkins)=username(ganeshgohane)-->password(Ganesh@779819)-> id(gitlab-user-pswd)-> Description(same as id)=addcreate->
+--> credential none(select ganeshgohane)--> branch (/*master)
+--> then select build executed shell
+   echo "PULL SUCCESSFULL"
+--> BOTTOM OF DESCIRPTION  selct option (restrict where this project can be run )-->lable expression(node)--> apply & save
+--> then give ssh of node-1 ec2-instance and run cmd yum install git -y 
+--> then back to jenkins console 
+--> then click on build now it will show output
+--> then give ssh of node-1 ec2-instance--> cd workspace --> it wil shows jobs --> cd pulljobs--> ls -a 

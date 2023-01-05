@@ -1,0 +1,91 @@
+## backup of jenkins jobs by using seed jobs ###
+
+--> create jenkins server then create scripted pipeline jobs 
+--> then give ssh of jenkins server and run following cmd
+--> yum install java -y
+-->git clone https://github.com/shubhamkalsait/jenkinsxml2jobdsl.git
+--> ls
+--> cd jenkinsxml2jobdsl/
+--> ./gradlew build
+--> yum install maven -y 
+## again run --> ./gradlew build
+--> cd build
+--> ls
+--> cd libs
+--> ls
+--> java -jar jenkinsxml2jobdsl.jar -u ganesh -a ganesh123 -j 18.188.186.23 -p 8080 scriptedpipeline
+--> ls
+--> cd jobs
+--> ls
+--> cat scriptedpipeline.groovy
+
+pipelineJob('scriptedpipeline_converted') {
+
+  description('')
+
+  displayName('scriptedpipeline_converted')
+
+  keepDependencies(false)
+
+  quietPeriod(0)
+
+  checkoutRetryCount(0)
+
+  disabled(false)
+
+  concurrentBuild(false)
+
+  configure { flowdefinition ->
+
+    flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps@2683.vd0a_8f6a_1c263') {
+
+      'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git@4.11.0') {
+
+        'configVersion'(2)
+
+        'userRemoteConfigs' {
+
+          'hudson.plugins.git.UserRemoteConfig' {
+
+            'url'('https://github.com/ganeshgohane/b-19.git')
+
+          }
+
+        }
+
+        'branches' {
+
+          'hudson.plugins.git.BranchSpec' {
+
+            'name'('*/master')
+
+          }
+
+        }
+
+        'doGenerateSubmoduleConfigurations'(false)
+
+        'submoduleCfg'(class:'empty-list')
+
+        'extensions'()
+
+      }
+
+      'scriptPath'('project-pipeline/scriptedpipeline.groovy')
+
+      'lightweight'(true)
+
+    }
+
+  }
+
+}
+
+--> then create file on visualstudio code on  seedjob folder with name (seedbkup1)
+--> edit the some entry like pipelineJob =bkup1 & displayName=bkup1 and remove step 5 to 15 (upper line of configure)
+--> step 21 or 11 git verison remove  only write git
+--> then restart autogit of visualcode 
+--> goto to console and create new frestyle job --> then goto scm select git -->paste URL of github and -->credentials (usname&paswd)
+--> then goto build select prject Dsl and paste the copy relative of visual code file and save and change the click on Build now 
+
+https://github.com/shubhamkalsait/jenkinsxml2jobdsl.git

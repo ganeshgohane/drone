@@ -1,0 +1,52 @@
+## jenkins installation for amazon linux ###
+ ## Jenkins Installation##
+--------------------------------------------------------------------
+ 
+1)## jenkins server creation ##
+--> create ec2 -instance with provide port 8080 and name as an jenkins 
+--> then give ssh of ec2 -instance and run following cmd 
+----------------------------------------------------------------------------------
+ 
+2) ## installation of java ##
+--> yum update -y
+--> amazon-linux-extras install epel --release -y
+--> yum install java-11-openjdk -y
+--> yum install wget -y
+------------------------------------------------------------------------------------
+
+3) ## configure jenkins repo## 
+
+--> wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+--> rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+--> yum clean all
+--> yum repolist all
+--------------------------------------------------------------------------------------
+
+ 4) ## install jenkins ##
+--> yum install jenkins
+
+--------------------------------------------------------------------------------
+
+5) ## start jenkins service ##
+--> systemctl start jenkins
+--> systemctl enable jenkins
+
+----------------------------------------------------------------------------------
+
+6) ## then hit broser public ip of jenkins server##
+-->  public ip:8080
+
+-------------------------------------------------------------------------------
+
+7) ## password authentication proccess ##
+--> cat /var/lib/jenkins/secrets/initialAdminPassword
+-->copy out put password
+--> paste on console of jenkins server 
+--> provide name, username ,email_id and password install all plugins 
+
+---------------------------------------------------------------------------
+ 8) ## Install the suggested plugins ##  
+
+install all plugins 
+
+### successfully your jenkins server will install  with all plugins ####

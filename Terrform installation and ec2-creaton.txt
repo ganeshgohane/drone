@@ -1,0 +1,230 @@
+## installation of terraform ##
+
+--> first of all create ec2 -instance name as terrform
+--> then give shh of ec2-instance
+--> then goto browser and paste this link 
+    https://www.terraform.io/downloads
+    goto TERRAFORM
+    select Amd64 right click on that and copy address link 
+
+--> goto ssh and simply download the package 
+--> curl -O https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip
+--> then unzip it 
+--> ls -->  terraform
+--> mv terraform  /bin/tf
+--> tf --version
+--> aws configure 
+secrete access key: AKIAYBLJTBFHYEJQGLNF
+key id: iiyaypR6i1Q731tMErOo+RyEJu4e5Xs9q91gq8tS
+region name: ap-south-1 
+
+--> then file manager-->desktop-->create folder (terraform-b16)-->then goto github and create repository(terraform-b16)then cp https url
+--> then goto file manager->desktop-> terraform-b16--> open right click on that git bash open
+--> then run cmd  git init, git add . , git commit -m "msg", git pull url , git push url 
+--> then goto vcs --> goto add new folder and select folder terraform-b16
+--> then install extension HashiCorp Terraform from vsc and install autogit 
+--> then create file on vsc myfirstterrformscript.tf
+ for instance demo script
+https://www.terraform.io/language/syntax/configuration
+------------------------------------------------------
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "web-server" {
+  ami = "ami-079b5e5b3971bd10d"
+  instance_type = "t2.micro"
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+
+
+
+----------------------------------------------------------
+--> start autogit or run cmd git add commit push pull 
+--> then give ssh of terrform instnace 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/terraform-b16.git
+--> cd terraform-b16
+--> tf init
+--> tf plan
+--> tf apply 
+   : yes
+--> tf destroy
+____________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+## variables ##
+
+--> goto vcs
+--> create folder terraform on repository terrform -b16
+--> then create file under the terraform folder
+ -->   main.ft
+-----------------------------------------------------
+resource "aws_instance" "web-server" {
+  ami = "ami-079b5e5b3971bd10d"
+  instance_type = "t2.micro"
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+
+resource "aws_instance" "app-server" {
+  ami = "ami-079b5e5b3971bd10d"
+  instance_type = "t2.micro"
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+-----------------------------------------------
+
+--> Provider.tf
+
+-------------------------------------------------
+provider "aws" {
+  region = "ap-south-1"
+}
+------------------------------------------
+
+--> start autogit or run cmd git add commit push pull 
+--> then give ssh of terrform instnace 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/terraform-b16.git
+--> cd terraform-b16
+--> tf init
+--> tf plan
+--> tf apply 
+   : yes
+--> tf destroy
+
+________________________________________________________________________________________________
+
+## AMI ID VARIABlE ##
+--> goto vcs
+--> goto folder terraform on repository terrform -b16
+--> then goto file
+ -->   main.ft
+-----------------------------------------------------
+resource "aws_instance" "web-server" {
+  ami = var.ami_id
+  instance_type = "t2.micro"
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+
+resource "aws_instance" "app-server" {
+  ami = var.ami_id
+  instance_type = "t2.micro"
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+ 
+variable "ami_id" {
+ type = string
+ default = "ami-079b5e5b3971bd10d"
+ description = "AMI-ID"
+}
+
+-----------------------------------------------
+
+--> Provider.tf
+
+-------------------------------------------------
+provider "aws" {
+  region = "ap-south-1"
+}
+------------------------------------------
+
+--> start autogit or run cmd git add commit push pull 
+--> then give ssh of terrform instnace 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/terraform-b16.git
+--> cd terraform-b16
+--> cd Terraform
+--> tf init
+--> tf plan
+_____________________________________________________________________________________________________________________________________
+
+## INSTANCE TYPE VARIABLE ##
+
+--> goto vcs
+--> goto folder terraform on repository terrform -b16
+--> then goto file
+ -->   main.ft
+----------------------------------------------------------------
+resource "aws_instance" "web-server" {
+  ami = var.ami_id
+  instance_type = var.instance_type
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+
+resource "aws_instance" "app-server" {
+  ami = var.ami_id
+  instance_type = var.instance_type
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+ 
+variable "ami_id" {
+ type = string
+ default = "ami-079b5e5b3971bd10d"
+ description = "AMI-ID"
+}
+
+variable "instance_type" {
+ description = "please enter instance type t2.micro or t3.micro"
+}
+
+------------------------------------------------------------------------
+--> start autogit or run cmd git add commit push pull 
+--> then give ssh of terrform instnace 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/terraform-b16.git
+--> cd terraform-b16
+--> cd Terraform
+--> tf init
+--> tf plan
+  enter value:-- t2.micro
+
+____________________________________________________________________________________________________________________________________
+
+## seperate variable file ##
+
+--> goto vcs
+--> goto folder terraform on repository terrform -b16
+--> then goto file
+ -->   main.ft
+----------------------------------------------------------------
+resource "aws_instance" "web-server" {
+  ami = var.ami_id
+  instance_type = var.instance_type
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+
+resource "aws_instance" "app-server" {
+  ami = var.ami_id
+  instance_type = var.instance_type
+  security_groups = ["default"]
+  key_name = "mumbai"
+}
+------------------------------------------------------------------
+
+--> create file variable.tf under the folder Terraform
+--> variable.tf
+--------------------------------------------------------
+variable "ami_id" {
+ type = string
+ default = "ami-079b5e5b3971bd10d"
+ description = "AMI-ID"
+}
+
+variable "instance_type" {
+ description = "please enter instance type t2.micro or t3.micro"
+}
+
+--------------------------------------------------------------------
+
+--> start autogit or run cmd git add commit push pull
+________________________________________________________________________________________________________________
+
+

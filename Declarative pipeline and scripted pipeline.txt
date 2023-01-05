@@ -1,0 +1,107 @@
+####  DECLARATIVE PIPELINE SYNAX ####
+
+--> goto visual studio and then create folder name --> pipeline on b-16 repo and create file in pipeline folder name as
+myfirstpipeline.jdp extension  goto extention and install Declarative Jenkinsfile 
+--> then goto jenkins console and click on pipeline job --> then click on pipeline syntax--> 
+--> click on pipeline syntax --> select sample steps
+https://www.jenkins.io/doc/book/pipeline/
+
+1) echo print msg --> 1)type any msg (PIPELINE BUILD SUCCESSFULLY,  2) (PIPELINE TEST SUCCESSFULLY), 3) (PIPELINE DEPLOY SUCCESSFULLY)
+  copy there output and paste on demo notepad script
+2) git --> then paste Repository URL of github -->branch (master),--> credential(none)--> then click on generate script
+-->then copy the script and paste on demo notepad script
+--------------------------------------------------------------------------------------------------------------------------
+  pipeline {
+    agent any 
+    stages {
+        stage('PULL') { 
+            steps {
+                git 'https://github.com/ganeshgohane/b-19.git'
+            }
+        }
+        stage('Build') { 
+            steps {
+                echo 'PIPELINE BUILD SUCCESSFULLY'
+            }
+        }
+        stage('Test') { 
+            steps {
+                echo 'PIPELINE TEST SUCCESSFULLY'
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo 'PIPELINE DEPLOY SUCCESSFULLY'
+            }
+        }
+    }
+} 
+-----------------------------------------------------------------------------------------------------------------------------------
+then paste on vsstudeo code on myfisrtpipeline.jdp
+--> goto visual studio code and goto file-->right click and select auto save--> 
+--> then goto extension box and search as an autogit--> then select auto-git and install it --> then it wil create directory as an 
+then goto our working file then click on .autogit--> then click on .autogit.json --> then provide timer replace as an 1800 to 5 
+--> then click on ctrl + shift + p then it give new terminal then search auto git restart--->then click on auto-git-restart->
+--> then goto gitlab --> and whether check file are there 
+-->        
+(creation of job)
+--> goto dashboard click on new item provide name as (tata-pipeline-project)--> select type(pipeline)-->then click on pipeline 
+then select pipeline scrpt from scm --> then scm=git--> then paste github repository URL of https--> then select branch specifier=Master
+--> then script path then goto the visual studio code and cp the path of file form simply right click on myfirstpipeline.jdp 
+and select copy relative path and then paste on job Script Path with back slash /
+--> then apply and save
+--> then build now 
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+###  scripted pipeline syntax ###
+
+--> first of goto the visual code then file scripted.groovy
+--> then 
+---------------------------------------------------------------------------------------------------------------
+
+node {  
+    stage('Pull') { 
+         git 'https://github.com/ganeshgohane/b-19.git'
+    }
+    stage('Build') { 
+       echo 'PIPELINE BUILD SUCCESSFULLY'  
+    }
+    stage('Test') { 
+        echo 'PIPELINE TEST SUCCESSFULLY'
+    }
+    stage('Deploy') { 
+        echo 'PIPELINE DEPLOY SUCCESSFULLY'
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------
+
+then paste on vsstudeo code on file scripted.groovy
+--> goto visual studio code and goto file-->right click and select auto save--> 
+--> then goto extension box and search as an autogit--> then select auto-git and install it --> then it wil create directory as an 
+then goto our working file then click on .autogit--> then click on .autogit.json --> then provide timer replace as an 1800 to 5 
+--> then click on ctrl + shift + p then it give new terminal then search auto git restart--->then click on auto-git-restart->
+--> then goto gitlab --> and whether check file are there 
+--> 
+(creation of job)
+--> goto dashboard click on new item provide name as (scrpited-pipeline-project)--> select type(pipeline)-->then click on pipeline 
+then select pipeline scrpt from scm --> then scm=git--> then paste github repository URL of https--> then select branch specifier=Master
+--> then script path then goto the visual studio code and cp the path of file form simply right click on scripted.groovy 
+and select copy relative path and then paste on job Script Path with back slash /
+--> then apply and save
+--> then build now 
+-------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+#### webhooks ####
+(manage plugin pipeline)
+--> then click on manage jenkins -> manage plugins --> select plugins on available (select github)--> then install without restart
+
+--> then of the auto-git from visual studio
+(creation of job)
+--> then click on item--> provide name as (webhook-project)--> select type (freestyle)--> 
+
+
+
+

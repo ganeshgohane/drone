@@ -1,0 +1,44 @@
+## sonarquebepipeline (test) ##
+
+--> create project sonarqube on sonar server 
+## create file sonar.jpd on vsc and paste following ##
+-----------------------------------------------------------------------------
+pipeline {
+    agent any
+    stages {
+        stage('Pull'){
+            steps {
+                git 'https://github.com/shubhamkalsait/studentapp-ui.git'
+            }
+        }
+        stage('Build'){
+            steps {
+                sh 'mvn clean package '
+            }
+        }
+        stage('Test'){
+            steps {
+                withSonarQubeEnv('sonar') {
+                     sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                echo 'Deploy Successful by shubham'
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------
+
+--> ## manage jenkins  ##
+--> click on Configure System--> goto SonarQube servers--> Name(sonar)--> Server URL( http://43.204.64.191:9000 )--> click on add select 
+--> select kind(usernameand password) --> Scope(global)--> username=admin--> password=admin--> id and decription==type any--> then select
+--> and then apply and save
+
+## job creation ##
+--> create pipeline job (maven)--> select pipeline--> select pipeline script from SCM -->select git --> Repository URL--> paste github URL
+--> select credentials username password --> branch=master--> script path =cp form vsc and paste on this with corelative path
+--> apply and save and build now  
+

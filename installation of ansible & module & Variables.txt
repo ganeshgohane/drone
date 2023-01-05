@@ -1,0 +1,1165 @@
+
+## installation of ansible ##
+______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+--> create ec2-instance with 1st name ansible server and second is node with security group for both ssh anywhere
+--> then provide elastic ip for ansible then give ssh of ansible ec2-instance
+--> then run following cmd 
+--> amazon-linux-extras install epel -release -y
+--> yum install ansible -y
+--> yum install git -y
+--> python --version
+--> ansible --version
+--> ansible --help
+--> then cd /etc/ansible
+--> ls
+--> vim ansible.cgf
+
+   :q!
+
+--> vim hosts
+    paste public ip of node instance
+  :wq!
+
+--> ansible -i hosts all -u ec2-user --private-key /home/ec2-user/fstab.pem -m ping
+--> then it will be successfully install adn ping with node as an output 
+      ping:pong
+____________________________________________________________________________________________________________________________________
+____________________________________________________________________________________________________________________________________
+on vsc create config file ansible.cfg 
+ line no. 107 uncomment remote_user = ec2-user
+ line no. 136 uncomment private_key_file = /home/ec2-user/fstab.pem
+ line no. 71 uncomment host_key_checking = False
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+## playbook ###
+
+create file name as hosts on vsc --> and download Decrited ansible --> and paste public ip or private ip and create folder playbook 
+and file firstplaybook.yml
+--------------------------------------------------------------------------------------------------------------------------------
+## playbook ping module ##
+
+on VSC
+firstplaybook.yml
+------------------------------------------
+---
+- name: My First Playbook
+  hosts: all
+  tasks:
+    - name: ping the hosts
+      ping:
+...
+
+-----------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/firstPlaybook.yaml
+_____________________________________________________________________________________________________________________________________
+
+ ## playbook for debuge module ##
+
+ on VSC
+debugePlaybook.yaml
+----------------------------------------------------
+ - name: playbook for debug
+  hosts: all
+  tasks:
+    - name: print hello world
+      debug:
+        msg: "Hello World! Welcome to Cloudblitz"
+
+---------------------------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/firstPlaybook.yaml
+______________________________________________________________________________________________________________________________________
+
+## playbook variable module ##
+
+ on VSC
+variablePlaybook.yaml
+-------------------------------------------------
+
+- name: playbook for debug
+  hosts: all
+  vars: 
+   URL: "www.ganesh.com"
+  tasks:
+    - name: print hello world
+      debug:
+        msg: "Please visit {{ URL }}"
+----------------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/variablePlaybook.yaml
+______________________________________________________________________________________________________________________________________
+
+## TYPE of Variables ##
+
+## global variable ##
+
+ on VSC
+globalvarPlaybook.yaml
+-----------------------------------------
+
+- name: playbook for debug
+  hosts: all
+  vars: 
+   URL: "www.ganesh.com"
+  tasks:
+    - name: print hello world
+      debug:
+        msg: "Please visit {{ URL }}"
+    - name: print hello world
+      debug:
+       msg: "Please visit {{ URL }}"
+---------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/globalvarPlaybook.yaml
+____________________________________________________________________________________________________________________________________
+
+## local variable ##
+
+on vsc 
+localvarPlaybook.yaml
+----------------------------------------------------------
+- name: playbook for debug
+  hosts: all
+  vars: 
+   URL: "www.ganesh.com"
+  tasks:
+    - name: print hello world
+      debug:
+        msg: "Please visit {{ URL }}"
+    - name: print hello world
+      debug:
+       msg: "Please visit {{ URL }}"
+    - name: print hello world
+      debug:
+       msg: "Please visit {{ URL }}"
+      vars:
+        URL: "local.cloudblitz.in"
+-----------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/localvarPlaybook.yaml
+________________________________________________________________________________________________________________________________
+
+## File variable ##
+on vsc
+create file varFile  and put following 
+URL: "file.cloudblitz.in"
+
+filevarPlaybook.yaml
+-----------------------------------------------
+- name: playbook for debug
+  hosts: all
+  vars_files:
+   - ./varfile
+  tasks:
+    - name: print hello world
+      debug:
+        msg: "Please visit {{ URL }}"
+    - name: print hello world
+      debug:
+       msg: "Please visit {{ URL }}"
+    - name: print hello world
+      debug:
+       msg: "Please visit {{ URL }}"
+      vars:
+        URL: "local.cloudblitz.in"
+-------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/filevarPlaybook.yaml
+________________________________________________________________________________________________________________________________________
+
+## Prompt variable ##
+on vsc
+create file Propmtvar.yaml
+-------------------------------------------------------
+- name: playbook for prompt
+  hosts: all
+  vars: 
+   URL: "www.ganesh.com"
+  vars_prompt:
+  - name: URL
+    prompt: "www.google.com"
+    private: false
+    tasks:
+    - name: print hello world
+      debug:
+        msg: "Please visit {{ URL }}"
+------------------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -u ec2-user --private-key /home/ec2-user/fstab.pem  Playbooks/Propmtvar.yaml
+OR 
+--> ansible-playbook Playbooks/Propmtvar.yaml
+www.google.com: ganesh123
+--> output
+_______________________________________________________________________________________________________________________________________
+
+## CLI VARIABLES  and  HOST VARIABLE ##
+
+ on VSC
+variablePlaybook.yaml
+-------------------------------------------------
+
+- name: playbook for debug
+  hosts: all
+  vars: 
+   URL: "www.ganesh.com"
+  tasks:
+    - name: print hello world
+      debug:
+        msg: "Please visit {{ URL }}"
+------------------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook -e URL=cli.ganesh.in Playbooks/variablePlaybook.yaml
+--> ansible-playbook -e URL=cli.google.in Playbooks/variablePlaybook.yaml
+-->ansible-playbook -e URL=cli.fb.in Playbooks/variablePlaybook.yaml
+--> ansible-playbook -e URL=cli.ganesh.com Playbooks/variablePlaybook.yaml
+--> ansible-playbook -e URL=cli.cloudbitzs.com Playbooks/variablePlaybook.yaml
+--> (any domain are in URL=cli.any name provide.in OR URL=cli.any name provide.com)
+## for HOST VARIABLE ##
+==> ansible -i hosts all -m setup
+_______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+## ansible distribution ##   (3rd may 2022)
+
+ansibledistrubut.yaml
+
+---------------------------------------
+- name: playbook for debug
+  hosts: all
+  tasks:
+    - name: print OS Name
+      debug:
+        msg: "THIS IS {{ansible_distribution}}"
+
+---------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/ansibledistrubut.yaml
+_____________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+## REGISTER VARIABLE ##
+
+registarvariable.yaml
+
+------------------------------------
+
+- name: Gathering Facts Playbook
+  hosts: all
+  tasks:
+    - name: print OS name
+      debug:
+        msg: 'THIS IS {{ ansible_distribution }}'
+      register: print_out
+      
+    - name: print the Register variable
+      debug:
+        msg: 'Value of the register var is {{ print_out.msg }}'
+
+---------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/registarvariable.yaml
+____________________________________________________________________________________________________________________________________
+____________________________________________________________________________________________________________________________________
+
+## IGNORE EERROR VARIABLE##
+
+ignorerror.yaml
+
+--------------------------------------
+
+- name: Ignore error playbook
+  hosts: all
+  tasks:
+    - name: Shell script for error
+      shell: ps -elf | grep java | grep -v grep
+      ignore_errors: yes
+
+    - name: print Hello World
+      debug: 
+        msg: 'Hello World'
+
+-------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/ignorerror.yaml
+
+__________________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
+
+## condition variable ##
+
+condition.yaml
+--------------------------------------------
+
+- name: Condition Playbook
+  hosts: all
+  tasks:
+    - name: print OS if it is Amazon
+      debug:
+        msg: "This is {{ ansible_distribution }}"
+      when: (ansible_distribution == 'Ubuntu' or ansible_distribution_major_version > '6')
+
+------------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/condition.yaml
+
+____________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+## Loop ##
+
+loop.yaml
+
+-----------------------------------------
+
+- name: Loop in Ansible 
+  hosts: all
+  tasks:
+    - name: loop
+      debug:
+        msg: 'My fav fruit {{ item }}'
+      loop:
+        - mango
+        - banana
+        - apple
+        - strawberry
+
+-----------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/loop.yaml
+
+______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+## Tags ##   (4 th may 2022)
+
+on vcs 
+create file 
+tags.yaml
+---------------------------------------------------
+- name: tags example playbook
+  hosts: all
+  tasks:
+    - name: print Hello World
+      debug:
+        msg: "Hello World"
+      tags: 
+        - hello
+    
+    - name: print Hello Cloudblitz
+      debug:
+        msg: "Hello Cloudblitz"
+      tags:
+        - cloudblitz
+        
+    - name: print welcome
+      debug:
+        msg: "Welcome to Cloudblitz"
+
+----------------------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/tags.yaml
+      (for perticular task will execute by using tags )
+--> ansible-playbook Playbooks/tags.yaml -t hello 
+--> ansible-playbook Playbooks/tags.yaml -t cloudblitz
+______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+## PRIVILAGES_escalation for ansible server for install packages by local user using sudo provide option as --> (become:true) in VCS ##
+
+on vcs create file 
+-> privilege-escalation.yaml
+-------------------------------------------------
+- name: Privilege Escalation
+  hosts: all
+
+  tasks:
+    - name: Install HTTPD
+      yum:
+        name: httpd
+        state: latest
+      become: true
+--------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/privilege-escalation.yaml
+______________________________________________________________________________________________________________________________________
+_______________________________________________________________________________________________________________________________________
+## playbook for webserver ##
+
+on vcs create file 
+--> web-server.yaml
+---------------------------------------
+- name: Playbook to create webserver
+  hosts: all
+  become: true
+  tasks:
+    - name: install package
+      yum:
+        state: latest
+        name: httpd
+    
+    - name: start httpd daemon
+      service:
+        state: started
+        name: httpd
+        enabled: true
+    
+    - name: Deploy Website
+      copy:
+        src: ./index.html
+        dest: /var/www/html/index.html
+
+-----------------------------------------------
+
+
+on vcs create file 
+--> index.html
+----------------------------------------
+ <H1>THIS IS WWW.GANESH GOHANE.COM </H1> 
+------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbooks/web-server.yaml
+---> add port 80 on security group of node-server with http
+--> paste public IP of node-server on browser your webpage will easily access 
+____________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
+( 5th may 2022)            ## 3-tier architecture (web-server + app-server + db-server) by automation  ##
+ 
+## WEB-server ## 
+
+## Roles ## (it is nothing but directory structure just like micrwebservices schenoro)
+
+--> close vsc first of all and again open
+create folder on vcs 
+--> # Roles
+then create subfolders 
+-->a) db-server
+-->b) app-server
+then create subfolder of app-server 
+--> 1) tasks  --> storing multiple files
+    2) vars   --> storing multiple variables files
+    3) files  --> storing cpy files
+-->c) web-server
+ 
+--> create file index.html on roles/web-server/files
+--> on vcs index.html 
+
+    <h1> this is ganesh gohane </h1> 
+
+--> create file main.yaml --> on roles/web-server/tasks
+----------------------------------------------------
+- name: install package
+  yum:
+    state: latest  
+    name: httpd
+
+- name: start httpd daemon
+  service:
+    state: started
+    name: httpd
+    enabled: true
+
+- name: Deploy Website
+  copy:
+    src: ./index.html
+    dest: /var/www/html/index.html
+
+
+------------------------------------------------------
+--> create file evn-deployment.yaml --> ansible directory
+
+
+------------------------------------------------------
+- name: Roles Playbook
+  hosts: all
+  become: true
+  roles:
+    - web-server
+
+-------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook evn-deployment.yaml
+--> paste public IP of node-server on browser your webpage will easily access 
+_____________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+ 
+(6 th may 2022)
+                                      ( 1-st tier )
+
+## web-server ##
+
+goto browser click on this link --> http://s3-us-west-2.amazonaws.com/studentapi-cit/ --> 
+--> then simply write --> http://s3-us-west-2.amazonaws.com/studentapi-cit/index.html --> goto googlw chrome 3 dot : and select more tools option
+--> click on  save as page --> index.html will download in (download)filemanager.(fronted apllication)
+
+--> similaly goto browser click on this link --> http://s3-us-west-2.amazonaws.com/studentapi-cit/ -->
+--> then simply write --> http://s3-us-west-2.amazonaws.com/studentapi-cit/student.war
+--> file will automatically download to (download)filemanager. (backend application)
+
+--> got vsc and goto ansible--> roles 
+-->goto roles --> web-server directory --> subdirectory files--> remove index.html --> drag index.html and index files from (download)filemanager
+
+--> then goto web-server directory --> subdirectory tasks--> main.yaml
+ on vcs   
+main.yaml
+-----------------------------------------------------------------------------------------
+- name: install package
+  yum:
+    state: latest  
+    name: httpd
+
+- name: start httpd daemon
+  service:
+    state: started
+    name: httpd
+    enabled: true
+
+- name: Deploy Website
+  copy:
+    src: ./index.html
+    dest: /var/www/html/index.html
+
+- name: Deploy Website content
+  copy:
+    src: ./index_files
+    dest: /var/www/html/
+-------------------------------------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook evn-deployment.yaml
+--> paste public IP of node-server on browser your webpage will easily access 
+_________________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+
+(7 th may 2022)                  
+
+                                (2nd tier)           
+
+## complete app-server ##                          
+ 
+
+goto vcs -> ansible folder--> roles folder --> app-server--> create subfolder--> 1) tasks 2)files 3) vars
+--> goto task folder and create file main.yaml & also goto the vars folder and create file main.yaml
+-->  goto task folder
+--> main.yaml
+--------------------------------------------------------
+- name: Install Java
+  yum:
+    state: latest
+    name: java
+
+- name: Download tomcat 8
+  get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: /opt/
+
+- name: Extract tomcat to /opt
+  unarchive:
+    src: /opt/{{ TOMCAT_ZIP }}
+    dest: /opt/
+    remote_src: true
+
+- name: start service
+  shell: /opt/{{TOMCAT_NAME}}/bin/catalina.sh start
+------------------------------------------------------------
+
+
+--> goto vars folder
+--> main.yaml
+-----------------------------------------------
+
+
+TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz
+TOMCAT_ZIP: apache-tomcat-8.5.78.tar.gz
+TOMCAT_NAME: apache-tomcat-8.5.78
+
+-----------------------------------------------------------------
+
+--> goto evn-devoplment.yaml file
+-------------------------------------------------------------------
+- name: Roles Playbook
+  hosts: all
+  become: true
+  roles:
+    - web-server
+    - app-server
+
+-----------------------------------------------------------------------------------
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook evn-deployment.yaml
+
+--> goto aws console cpy Public IP of node -server and add port 8080 on security group and give ssh by using moboxtermo
+--> then run following cmd 
+--> cd /opt/apache-tomcat-8.5.78/bin
+--> ls
+--> ./catlina.sh start 
+--> copy public ip of node server and paste on browser with 65.0.21.231:8080
+--> then tomcat will easily run on node-server
+
+____________________________________________________________________________________________________________________________________
+
+then again vcs and goto folder ansible--> roles --> app-server--> file 
+--> drag student.war file from filemanger (download) to folder--> file (after draging student.war)
+--> then goto task folder --> 
+--> main.yaml
+------------------------------------------------------------------
+- name: Install Java
+  yum:
+    state: latest
+    name: java
+
+- name: Download tomcat 8
+  get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: /opt/
+
+- name: Extract tomcat to /opt
+  unarchive:
+    src: /opt/{{ TOMCAT_ZIP }}
+    dest: /opt/
+    remote_src: true
+
+- name: start service
+  shell: /opt/{{TOMCAT_NAME}}/bin/catalina.sh start
+
+- name: Deploy webapp
+  copy:
+    src: ./student.war
+    dest: /opt/{{TOMCAT_NAME}}/webapps/student.war
+------------------------------------------------------
+
+--> goto folder vars
+--> main.yaml
+-------------------------------------------------------
+TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz
+TOMCAT_ZIP: apache-tomcat-8.5.78.tar.gz
+TOMCAT_NAME: apache-tomcat-8.5.78
+------------------------------------------------------------------------
+
+then goto ansble--> roles--> web-server--> files
+--> index.html    (line no. 6 will change only paste http://65.0.21.231:8080/student/)
+----------------------------------------------------------------------------------------------
+1 no. line later paste on vsc
+
+<!-- saved from url=(0060)https://s3-us-west-2.amazonaws.com/studentapi-cit/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head><body><h1 style="text-align: center;"><span style="color: #ff0000;">Welcome to Student Application on AWS.</span></h1>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./index_files/1_tFl-8wQUENETYLjX5mYWuA.png" alt="" width="1200" height="630"></p>
+<p>&nbsp;</p>
+<h2 style="text-align: center;"><a href="http://65.0.21.231:8080/student/"><strong>Enter to Student Application</strong></a></h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p></body></html>
+
+----------------------------------------------------------------------------------------------------------------
+
+then run cmd git add . commit pull and push 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook evn-deployment.yaml
+
+-->  copy public ip of node server and paste on browser with 65.0.21.231:8080/student
+--->  copy public ip of node server and paste on browser 65.0.21.231 --> click on Enter to Student Application-->
+--> we will eaisly access student data 
+--> so your app-server will easily successfull 
+    
+               ( complete aplication layer 2nd tier will complete)
+
+______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+## Deploy-server ## 
+3rd tier 
+
+(complete 3 tier architechture )
+
+--> goto vsc create file on Playbook folder as
+--> url-split.yaml
+-----------------------------------------------------------------------
+
+- name: Playbook for example of URL split
+  hosts: all
+  tasks:
+    - name: example url split
+      debug:
+        msg: '{{ "https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz" | urlsplit("path") }}'
+
+    - name: use splitext
+      debug:
+        msg: '{{ "https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz" | splitext | last }}'
+
+    - name: split function
+      debug: 
+        msg: "{{ 'https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz'.split('/') | last }}"
+      register: TOMCAT_ZIP
+
+    - name: find and replace function
+      debug: 
+        msg: "{{ TOMCAT_ZIP | regex_replace('.tar.gz','') }}"
+
+----------------------------------------------------------------------------------------------
+
+-> then goto folder roles--> app-server--> vars--> main.yaml
+--> main.yaml
+-----------------------------------------------------------------
+TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz
+TOMCAT_ZIP: "{{ TOMCAT_URL.split('/') | last }}"
+TOMCAT_DIR: "{{ TOMCAT_ZIP | regex_replace('.tar.gz','') }}"
+
+---------------------------------------------------------------------------------------------------
+
+--> then goto folder roles--> app-server-->tasks--> main.yaml 
+--> main.yaml
+----------------------------------------------------------------------------------
+- name: Install Java
+  yum:
+    state: latest
+    name: java
+
+- name: Download tomcat 8
+  get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: /opt/
+
+- name: Extract tomcat to /opt
+  unarchive:
+    src: /opt/{{ TOMCAT_ZIP }}
+    dest: /opt/
+    remote_src: true
+
+- name: Deploy webapp
+  copy:
+    src: ./student.war
+    dest: /opt/{{TOMCAT_DIR}}/webapps/student.war
+
+- name: start service
+  shell: /opt/{{TOMCAT_DIR}}/bin/catalina.sh start
+-------------------------------------------------------------------
+
+then run cmd git add . commit pull and push  on vsc terminal
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook Playbook/url-split.yaml
+---> spilt url will suuccefully added
+--> ansible-playbook env-deployment.yaml
+--> copy pubic IP of node-server and paste on browser
+--> we can eaisly access student app page 
+_____________________________________________________________________________________________________________________________________
+
+--> then create database server  by using RDS
+--> click create database --> standard--> mariadb--> dev-test--> username =admin--> password=admin123 --> simply create.
+--> then goto vsc and folder --> roles --> app-server--> files-->
+--> creare file
+--> context.xml
+----------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- The contents of this file will be loaded for each web application -->
+<Context>
+
+    <!-- Default set of monitored resources. If one of these changes, the    -->
+    <!-- web application will be reloaded.                                   -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+    <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+           maxTotal="500" maxIdle="30" maxWaitMillis="1000"
+           username="admin" password="admin123" driverClassName="com.mysql.jdbc.Driver"
+           url="jdbc:mysql://database-1.cgwplrnajuus.ap-south-1.rds.amazonaws.com:3306/studentapp?useUnicode=yes&amp;characterEncoding=utf8"/>
+
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+</Context>
+----------------------------------------------------------------------------------------------------------------------------------
+
+then goto folder --> roles --> app-server--> tasks--> main.yaml
+--> main.yaml
+---------------------------------------------------------------------------------------------------
+
+- name: Install Java
+  yum:
+    state: latest
+    name: '{{ item }}'
+  loop:
+    - java
+    - mysql
+
+- name: Download tomcat 8
+  get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: /opt/
+
+- name: Extract tomcat to /opt
+  unarchive:
+    src: /opt/{{ TOMCAT_ZIP }}
+    dest: /opt/
+    remote_src: true
+
+- name: Deploy webapp
+  copy:
+    src: ./student.war
+    dest: /opt/{{TOMCAT_DIR}}/webapps/student.war
+
+- name: Upload configuration file
+  copy:
+    src: ./context.xml
+    dest: /opt/{{TOMCAT_DIR}}/conf/context.xml
+
+- name: Store my-sql connector in lib
+  get_url:
+    url: '{{MYSQL_LIB_URL}}'
+    dest: /opt/{{TOMCAT_DIR}}/lib/
+---------------------------------------------------------------------------------------
+
+--> then goto folder --> roles --> app-server--> vars --> main.yaml
+--> main.yaml
+----------------------------------------------------------------------------------------------------------
+
+TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.78/bin/apache-tomcat-8.5.78.tar.gz
+TOMCAT_ZIP: "{{ TOMCAT_URL.split('/') | last }}"
+TOMCAT_DIR: "{{ TOMCAT_ZIP | regex_replace('.tar.gz','') }}"
+MYSQL_LIB_URL: https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.jar
+
+--------------------------------------------------------------------------------------------------------------
+
+then give ssh of node server
+--> then run following cmd 
+--> yum install mysql -y
+--> add port node-server 3306 as well as database security group 3306
+--> mysql -h database-1.cgwplrnajuus.ap-south-1.rds.amazonaws.com -uadmin -padmin123
+--> CREATE DATABASE studentapp;
+use studentapp;
+CREATE TABLE if not exists students(student_id INT NOT NULL AUTO_INCREMENT,
+	student_name VARCHAR(100) NOT NULL,
+    student_addr VARCHAR(100) NOT NULL,
+	student_age VARCHAR(3) NOT NULL,
+	student_qual VARCHAR(20) NOT NULL,
+	student_percent VARCHAR(10) NOT NULL,
+	student_year_passed VARCHAR(10) NOT NULL,
+	PRIMARY KEY (student_id)
+);
+show tables;
+describe students;
+--> exit;
+-------------------------------------------------------------------------------------------------------------
+
+
+then run cmd git add . commit pull and push  on vsc terminal
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook env-deployment.yaml
+--> copy pubic IP of node-server and paste on browser
+-----------------------------------------------------------------------------------
+for maunally work 
+
+--> then give ssh of node-server
+--> run following cmd 
+--> cd /opt/apache-tomcat-8.5.78/bin/
+--> ./catalina.sh stop
+--> ./catalina.sh start
+--->  copy public ip of node server and paste on browser 65.0.21.231 --> click on Enter to Student Application-->
+--> we will eaisly access student data 
+--> provide data and register it will successfuly register.
+------------------------------------------------------------------------------------------------------------
+
+goto browser and paste following url
+-> https://s3-us-west-2.amazonaws.com/studentapi-cit/tomcat-init
+---> tomcat-init file will download
+-->  drag file of tomcat-init from file manager(download) to vsc folder roles--> app-server --> files--> drop on.
+-->  8 and 9 line will paste on tomcat-init
+--------------------------------------------------------
+
+TOMCAT_USER=root
+TOMCAT_DIR=/opt/apache-tomcat*
+
+--------------------------------------------------------
+
+then goto vsc and folder --> roles--> tasks --> main.yaml
+--> main.yaml
+-----------------------------------------------------------------------
+- name: Install Java
+  yum:
+    state: latest
+    name: '{{ item }}'
+  loop:
+    - java
+    - mysql
+
+- name: Download tomcat 8
+  get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: /opt/
+
+- name: Extract tomcat to /opt
+  unarchive:
+    src: /opt/{{ TOMCAT_ZIP }}
+    dest: /opt/
+    remote_src: true
+
+- name: Deploy webapp
+  copy:
+    src: ./student.war
+    dest: /opt/{{TOMCAT_DIR}}/webapps/student.war
+
+- name: Upload configuration file
+  copy:
+    src: ./context.xml
+    dest: /opt/{{TOMCAT_DIR}}/conf/context.xml
+
+- name: Store my-sql connector in lib
+  get_url:
+    url: '{{MYSQL_LIB_URL}}'
+    dest: /opt/{{TOMCAT_DIR}}/lib/
+
+- name: Create Daemon for tomcat
+  copy:
+    src: ./tomcat-init
+    dest: /etc/init.d/tomcatd
+    mode: '0777'
+
+- name: Reload the daemon
+  shell: systemctl daemon-reload
+
+- name: restart tomcat
+  service:
+    name: tomcatd
+    state: restarted 
+    enabled: true
+
+-----------------------------------------------------------------------------
+then run cmd git add . commit pull and push  on vsc terminal
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook env-deployment.yaml
+--> paste public ip of node-server on browser --> 65.0.21.231--> click on Enter to Student Application-->
+--> we will eaisly access student data 
+--> provide data and register it will successfuly register.
+------------------------------------------------------------------------------
+FOR CHECKING DEAMON SERVICE WORK OR NOT
+
+then give ssh of node -server 
+--> cd /etc/init.d/
+--> systemctl stop tomcatd
+--> pkill java
+--> paste public ip of node-server on browser with--> http://65.0.21.231:8080/student/
+--> cd /etc/init.d/
+--> systemctl restart tomcatd
+--> systemctl enable tomcatd
+--. systemctl start tomcatd
+--> again run scritp on ansible server give ssh of ansible-server
+--> ansible-playbook env-deployment.yaml
+--> paste public ip of node-server on browser --> 65.0.21.231--> click on Enter to Student Application-->
+--> we will eaisly access student data 
+--> provide data and register it will successfuly register.
+   
+    ( database_server will succefully work)
+
+   (THIS IS COMPLETE 3_TIER ARCHITECTURE )
+
+_____________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
+
+## HANDLER ##
+
+--> then goto vsc goto roles--> app-server --> and create folder Handlers--> create file main.yaml
+----------------------------------------------------
+- name: restart tomcat
+  service:
+    name: tomcatd
+    state: restarted 
+    enabled: true
+----------------------------------
+
+--> then goto vsc goto roles--> app-server --> task folder --> main.yaml
+
+-------------------------------------------------------
+
+- name: Install Java
+  yum:
+    state: latest
+    name: '{{ item }}'
+  loop:
+    - java
+    - mysql
+
+- name: Download tomcat 8
+  get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: /opt/
+
+- name: Extract tomcat to /opt
+  unarchive:
+    src: /opt/{{ TOMCAT_ZIP }}
+    dest: /opt/
+    remote_src: true
+
+- name: Deploy webapp
+  copy:
+    src: ./student.war
+    dest: /opt/{{TOMCAT_DIR}}/webapps/student.war
+
+- name: Upload configuration file
+  copy:
+    src: ./context.xml
+    dest: /opt/{{TOMCAT_DIR}}/conf/context.xml
+  notify: 
+    - restart tomcat
+
+
+- name: Store my-sql connector in lib
+  get_url:
+    url: '{{MYSQL_LIB_URL}}'
+    dest: /opt/{{TOMCAT_DIR}}/lib/
+
+- name: Create Daemon for tomcat
+  copy:
+    src: ./tomcat-init
+    dest: /etc/init.d/tomcatd
+    mode: '0777'
+
+- name: Reload the daemon
+  shell: systemctl daemon-reload
+
+----------------------------------------------------
+git add commit pull push on vsc terminal and 
+--> give ssh of of ansible ec2 
+--> yum install git -y
+--> git clone https://github.com/ganeshgohane/ansible.git
+--> cd ansible
+--> ls
+--> ansible-playbook env-deployment.yaml
+
+______________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________
+

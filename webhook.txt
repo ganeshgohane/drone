@@ -1,0 +1,45 @@
+#### webhooks #### 2 different services communicated with each other with the help of webhook
+(manage plugin pipeline)
+--> then click on manage jenkins -> manage plugins --> select plugins on available (select github)--> then install without restart
+
+--> then of the auto-git from visual studio
+(creation of job)
+--> then click on item--> provide name as (webhook-github)--> select type (pipeline or freestyle)--> select freestyle --> ok
+--> select source code management git and paste paste in url of github repo https url
+--> after that github credentials username and password --> branch */master and apply and save
+--> go to build trigger --> select option build when a change is pushed to github
+--> select github trigger events like first push event
+--> simply apply and copy github webhook url from build events
+--> go to github --> select repository setting & select webhook and paste in url --> paste  webhook url from build events
+--> now sectret tocken --> got to jenkins build page and select advance option --> generate tocken and copy that tocken and paste into the github repository setting
+--> simply click on add webhook in gitlab repo setting --> you can uncheck ssl verification --> click on test and push events
+--> and monitor job build successfull or not 
+-->  you can use this code to  build and make changes and build again in vs code
+
+
+       pipeline {
+    agent any 
+    stages {
+        stage('PULL') { 
+            steps {
+                git 'https://github.com/suraj645/devops.git'
+            }
+        }
+        stage('Build') { 
+            steps {
+                echo 'PIPELINE BUILD SUCCESSFULLY'
+            }
+        }
+        stage('Test') { 
+            steps {
+                echo 'PIPELINE TEST SUCCESSFULLY'
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo 'PIPELINE DEPLOY SUCCESSFULLY'
+            }
+        }
+    }
+} 
+

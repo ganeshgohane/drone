@@ -1,0 +1,77 @@
+### manually MAVEN BUILD ###
+
+--> yum install java -y
+--> yum install epel-release -y
+--> yum install maven -y
+--> mvn --version
+--> java -version 
+--> mvn archetype:generate -DgroupId=in.cloudblitz.emby -DartifactId=emby-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+--> ls
+--> cd /emby-app/
+--> yum install tree
+--> ls
+--> mvn package
+--> cd target
+--> ls  
+--> mvn jar:jar
+--> cd /emby-app/
+--> mvn clean package
+--> cd /target
+--> ls
+
+
+### automatically MAVEN BUILD ### 
+
+--> goto the visual studio code--> then create file on pipeline folder and create file mavenpipeline.jdp--> then paste following script
+   
+pipeline {
+    agent any
+    stages {
+        stage('Pull'){
+            steps {
+                git 'https://github.com/shubhamkalsait/studentapp-ui.git'
+            }
+        }
+        stage('Build'){
+            steps {
+                sh 'mvn clean package '
+            }
+        }
+        stage('Test'){
+            steps {
+                echo 'Test Successful by shubham'
+            }
+        }
+        stage('Deploy'){
+            steps {
+                echo 'Deploy Successful by shubham'
+            }
+        }
+    }
+}
+
+
+---------------------------------------------------------------------------------------------------------------------
+-->then create project maven pipeline--> select type(pipeline)--> goto pipeline--> then select (pipeline script form scm)--> select git
+--> paste url github--> select credential ganesh_ide--> or follow step of job creation 
+ 
+## Manage jenkins ## 
+--> goto the manage jenkins--> goto Global Tool Configuration-->Default global settings provide-->select use defaults maven global setting--> goto maven-->add maven
+--> then provide name Maven --> and then MAVEN_HOME= /usr/share/maven --> then save apply
+
+## job creation ##
+--> create pipeline job (maven)--> select pipeline--> select pipeline script from SCM -->select git --> Repository URL--> paste github URL
+--> select credentials username password --> branch=master--> script path =cp form vsc and paste on this with corelative path
+--> apply and save and build now  
+
+
+   OR
+
+--> --> goto the manage jenkins--> goto Global Tool Configuration-->Default global settings provide-->select use defaults maven global setting--> goto maven-->add maven
+--> then provide name Maven --> and then MAVEN_HOME= /usr/share/maven --> then save apply
+--> create pipeline job select freestyle --> select pipeline script from SCM -->select git --> Repository URL--> paste github URL
+--> select credentials username password --> branch=master--> then goto build section 
+--> select Set build description
+--> Regular expression?= pom.xml
+--> Description?= mvn package
+--> apply and save and build now  

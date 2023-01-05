@@ -1,0 +1,167 @@
+## manage jenkins ##
+--> goto manage jenkins--> click on manage plugins--> available (sonar quality)--> select quality gate--> install without restart
+
+## creation of job ##
+--> then create project  pipeline name(quality check)--> select type pipeline --> then click on pipeline syntax select (wait for quality gate)
+--> select creds--> then generate script--> cp this script and paste on vcs for new file(qualityceck.jdp) on quality check stage -->
+--> then click on pipeline syntax select (timeout:enforce time limit)--> then selct 1 --> hour --> generate script
+--> cp this script and paste on vcs for new file(qualityceck.jdp) on quality check stage --> 
+ 
+--> --> create pipeline job (maven)--> select pipeline--> select pipeline script from SCM -->select git --> Repository URL--> paste github URL
+--> select credentials username password --> branch=master--> script path =cp form vsc and paste on this with corelative path
+--> apply and save and build now  
+
+------------------------------------------------------------------------------------------------------------------------
+pipeline {
+    agent any
+    stages {
+        stage('Pull'){
+            steps {
+                git 'https://github.com/shubhamkalsait/studentapp-ui.git'
+            }
+        }
+        stage('Build'){
+            steps {
+                sh 'mvn clean package '
+            }
+        }
+        stage('Test'){
+            steps {
+                 withSonarQubeEnv('sonar') {
+                     sh 'mvn sonar:sonar'
+                }
+            }
+        }
+         stage('Quality check'){
+            steps {timeout(time: 1, unit: 'HOURS') {
+        waitForQualityGate abortPipeline: true, credentialsId: 'sonarqubetoken'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                echo 'Deploy Successful by shubham'
+            }
+        }
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------
+## webhook ##
+ 
+--> goto sonarqube server --> click on administration --> click on configuration --> select webhook-->click on create-->
+--> name(sonar-quality)-->URL=(jenkins server url:8080/webhookname)=example (http://3.6.93.74:8080/sonar-quality)--> and simply create
+--> goto project and then build now 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
+## tomcat deployment ##
+
+## Installation of tomcat ##
+
+1. create ec2-instance amazonlinux  &  Add port 8080{custom tcp anywhere} on security group add ssh port anywhere 
+during  creation of ec2  instnace it will attch 
+
+2.  Download tomcat 8 ( tar.gz (pgp, sha512) ) by serching (https://tomcat.apache.org/download-80.cgi) by using wget cmd 
+3.Extract in /opt (tar -xzvf apache-tomcat-8.5.76.tar.gz -C /opt/)
+ 
+4. yum install java-openjdk -y 
+
+5. Start tomcat using ./catalina.sh start
+then hit public ip with 8080 port on boweser like (13.233.231.3:8080)
+----------------------------------------------------------------------------------------------------------------------------
+## configuration of tomcat ##
+--> cd conf
+--> vim tomcat-users.xml
+   <role rolename="manager-gui"/>
+   <role rolename="manager-script"/>
+   <role rolename="manager-jmx"/>
+   <role rolename="manager-status"/>
+   <role rolename="admin-gui"/>
+
+   <user username="linux" password="ganesh123" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-gui"/>
+
+ :wq!
+
+--> then goto cd webapps 
+--> ls
+--> cd host-manager/
+--> ls
+--> cd META-INF
+--> ls
+--> vim context.xml
+   <!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+       allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />  -->
+   (comment value..to ../> line  by starting <!-- and ending -->)
+
+  :wq!
+--> cd..
+--> cd manager 
+--> ls
+--> cd META-INF
+--> ls
+--> vim context.xml
+    <!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+       allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />  -->
+    (comment value..to ../> line  by starting <!-- and ending -->
+  :wq!
+--> then cd bin
+--> ./catlina.sh stop
+--> ./catlina.sh start
+--------------------------------------------------------------------------------------------------------------------
+--> then goto browser reload it provide username=linux; password=ganesh123
+------------------------------------------------------------------------------------------------------------------------
+--> then goto jenkins console
+--> manage jenkins --> manage plugins--> available(container search)--> select (deploy to container)
+
+--> then goto project create job -->job name cicd --> then select type pipeline--> click on pipeline syntax-->
+--> restart jenkins server
+--> then click on cicd job --> click on pipeline syntax-->deploy:deploy war/ear to container--> war/ear file(**/*.war)-->
+-->context path(/)--> add container(tomcat 8)--> credentials (username & password)--> username =linux; password=ganesh123-->
+--> then select it--> tomcat URL (http://13.233.231.3:8080)--> then generate pipeline script and cp this script and goto vcs
+and create new file cicd.jdp and paste on vcs on deploment stage
+---------------------------------------------------------------------------------------------------------------------------
+
+pipeline {
+    agent any
+    stages {
+        stage('Pull'){
+            steps {
+                git 'https://github.com/shubhamkalsait/studentapp-ui.git'
+            }
+        }
+        stage('Build'){
+            steps {
+                sh 'mvn clean package '
+            }
+        }
+        stage('Test'){
+            steps {
+                withSonarQubeEnv('sonar') {
+                     sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                deploy adapters: [tomcat8(credentialsId: 'tomide', path: '', url: 'http://13.233.231.3:8080')], contextPath: '/', war: '**/*.war'
+            }
+        }
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------ 
+
+--> then goto cicd jobs and select pipeline script from SCM -->select git --> Repository URL--> paste github URL
+--> select credentials username password --> branch=master--> script path =cp form vsc and paste on this with corelative path
+--> apply and save and build now  
+
+--> deployment successfull.
+
+
+--> then hit public ip with 8080 port on boweser like (13.233.231.3:8080)
+
+
+
+
